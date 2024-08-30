@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-color: #1362d6;
+    --second-color: rgb(165 167 168);
+}
+
+.bg-main-color {
+    color: var(--main-color);
+}
+
+.bg-second-color {
+    background-color: var(--second-color);
+}
+ 
+p {
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.admin-page {
+    min-height: 100vh;
+}
+
+/* Make item center  */
+.item-center {
+    display: flex;
+    align-items: center;
+}
+
+.page-logo img {
+    width: 75px;
+    height: 75px;
+}
+
+.menu-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.choose-image {
+    width: 130px;
+    height: 130px;
+}
+
+/* Category  */
+.category {
+    height: 200px;
+}
+
+.category-iamge {
+    width: 100%;
+    height: 70%;
+}
+.category-iamge img{
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: cover;
+}
