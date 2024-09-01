@@ -15,7 +15,7 @@ class CategoryController extends Controller
             if (!$request->has("name") || $request->name == null) {
                 return response()->json([
                     "status" => "failed",
-                    "msg" => "Name is required."
+                    "msg" => "Category name is required."
                 ]);
             }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
 
             $category = new Category();
             $category->name = $name;
-            $category->description = $description;
+            $category->description = $description ?? "";
             $category->logo = $fileName;
             $category->save();
 
@@ -40,7 +40,7 @@ class CategoryController extends Controller
             unset($category->updated_at);
             unset($category->created_at);
             $category->logo = $category->logo ?: emptyImage();
-            
+
             return response()->json([
                 "status" => "success",
                 "msg" => "Category save success.",

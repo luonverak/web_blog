@@ -13,6 +13,7 @@
                     <textarea class="form-control mb-2" id="description"></textarea>
                     <label for="">Logo (Optional)</label>
                     <input type="file" class="d-none" id="logo">
+                    <input type="hidden" id="old_logo">
                     <div class="choose-image border rounded" role="button">
                         <img class="w-100 h-100 rounded object-fit-cover" src="{{ emptyImage() }}" alt="">
                     </div>
@@ -20,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="category-accept" class="btn btn-primary w-25 accept-save-category">Save</button>
+                <button type="button" id="category-accept" data-id="" class="btn btn-primary w-25 accept-save-category">Save</button>
             </div>
         </div>
     </div>

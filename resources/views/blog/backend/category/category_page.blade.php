@@ -6,6 +6,7 @@
     </button>
     <div class="m-0 p-0 row category-list"></div>
     @include('blog.modal.category')
+    @include('message.message_alert')
 @endsection
 @section('script')
     <script>
