@@ -80,4 +80,57 @@ class CategoryController extends Controller
             throw $th;
         }
     }
+    public function updateCategory(Request $request)
+    {
+        try {
+
+            if (!$request->has("name") || $request->name == null) {
+                return response()->json([
+                    "status" => "failed",
+                    "msg" => "Category name is required."
+                ]);
+            }
+
+            $id = Deccryption($request->id);
+            $name = $request->name;
+            $description = $request->description;
+
+            $logo = $request->file("logo");
+            $fileName = "";
+            if ($logo) {
+                $fileName = date('h-m-y-h-i-s') . '-' . $logo->getClientOriginalName();
+                $logo->move("image_upload", $fileName);
+                $fileName = url("image_upload/$fileName");
+            } else {
+                $fileName = $request->old_logo;
+            }
+
+            $category = Category::where("id", $id)->first();
+
+            if (!$category) {
+                return response()->json([
+                    "status" => "failed",
+                    "msg" => "Category not found."
+                ]);
+            }
+            
+            $category->name = $name;
+            $category->description = $description ?? "";
+            $category->logo = $fileName;
+            $category->save();
+
+            // Remove
+            unset($category->updated_at);
+            unset($category->created_at);
+            $category->logo = $category->logo ?: emptyImage();
+
+            return response()->json([
+                "status" => "success",
+                "msg" => "Category edited success.",
+                "record" => $category
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

@@ -52,6 +52,20 @@ $(document).on("click", "button.open-add-category", function () {
     categoryModal.find("#category-accept").text("Save change").removeClass("accept-save-category").addClass("accept-edit-category");
     $("div.category-modal").modal("show");
 
+}).on("click", ".accept-edit-category", function () {
+    let name = $("input#name");
+    let description = $("textarea#description").val();
+    let id = $(this).attr("data-id");
+    let oldLogo = $("input#old_logo").val();
+
+    if (name.val() === "") {
+        errorAlertMessage("Something wrong!", "Category name is required.");
+        name.addClass("border-danger");
+        return;
+    } else {
+        name.removeClass("border-danger");
+    }
+    updateCategory(id, name.val(), description, file, oldLogo);
 });
 
 function addCategory(name, description, file) {
@@ -91,8 +105,46 @@ function addCategory(name, description, file) {
     });
 }
 
+function updateCategory(id, name, description, file, oldLogo) {
+
+    let form = new FormData();
+    form.append("id", id);
+    form.append("name", name);
+    form.append("description", description ?? "");
+    form.append("logo", file ?? "");
+    form.append("old_logo", oldLogo);
+    $.ajax({
+        type: "POST",
+        url: "/api/admin/update-category",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: form,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+
+        },
+        success: function (response) {
+
+            if (response.status != "success") {
+                errorAlertMessage("Failed", response.msg);
+                return;
+            }
+            successAlertMessage("Category edited", response.msg);
+            let category = categoryRecords(response.record);
+            $("div.category-list").find("div.category[data-id='"+id+"']").replaceWith(category);
+            $("div.category-modal").modal("hide");
+
+        },
+        error: function (xhr, status, error) {
+
+        }
+    });
+}
+
 function categoryRecords(category) {
-    return `<div class="col-3 category p-2 d-flex justify-content-end">
+    return `<div class="col-3 category p-2 d-flex justify-content-end" data-id="${btoa(category.id)}">
                 <div class="position-absolute p-2 open-edit-category" role="button">
                     <span><i class="fa-regular fa-pen-to-square fs-3 text-white"></i></span>
                 </div>
