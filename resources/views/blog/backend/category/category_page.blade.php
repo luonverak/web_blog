@@ -1,4 +1,4 @@
-@extends('blog.backend.backend_master')
+@extends('blog.layout.backend_master')
 @section('admin-content')
     <button class="btn  btn-primary bg-main-color text-white m-2 open-add-category  ">
         <i class="fa-solid fa-plus"></i>
